@@ -1,0 +1,10 @@
+cs_italy
+de_dust2
+de_ancient
+de_vertigo
+de_nuke
+cs_office
+de_mirage
+de_inferno
+de_overpass
+de_anubis
