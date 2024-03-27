@@ -88,18 +88,6 @@ Mod | Version | Why
 [CS2 Advertisement](https://github.com/partiusfabaa/cs2-advertisement)| `1.0.6.7` | Allows you to show ads in chat/center/panel. [How?](#enable-advertisements)
 [CS2 Deathmatch](https://github.com/NockyCZ/CS2-Deathmatch)| `1.1.0` | Custom Deathmatch CS2 plugin (Includes custom spawnpoints, multicfg, gun selection, spawn protection, etc)
 
-## Share the love
-
-If you appreciate the project then please take the time to star the repository 🙏
-
-<img alt="Star the project" src="https://github.com/kus/cs2-modded-server/blob/assets/assets/star.png?raw=true&sanitize=true">
-
-## Stay up to date
-
-Subscribe to release notifications and stay up to date with the latest features and patches:
-
-<img alt="Subscribe to updates" src="https://github.com/kus/cs2-modded-server/blob/assets/assets/watch.png?raw=true&sanitize=true">
-
 ## Custom files
 
 > [!NOTE]  
@@ -122,8 +110,6 @@ If you want to change the server name, or make any changes to any mod settings u
 ### Dynamically creates config files in plugin folder
 
 If a plugin creates a config file in the plugins folder where the dll is (i.e.: `/game/csgo/addons/counterstrikesharp/plugins/disabled/Advertisement/advertisement.json`) it will be deleted when the server starts as the `addons` folder is deleted to make sure old plugins are removed if I removed them. You need to copy this file and your changes to your `/custom_files/` folder so it merges it back in. You would put the example file in `/custom_files/addons/counterstrikesharp/plugins/disabled/Advertisement/advertisement.json` and every time the server starts it will merge it back in and you will have your changes.
-
-To generate this directory, you can run the `gcp.sh` script (if on Google Cloud), `install.sh` script on Linux once or on `win.bat` script on Windows where you extracted the mod zip and this is where you would put your custom modifications.
 
 ## Creating an online server
 
