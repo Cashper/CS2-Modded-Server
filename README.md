@@ -64,12 +64,6 @@ Useful things to know:
 - [Changing game mode](#changing-game-modes)
 - [Changing maps](#changing-maps)
 
-Getting up and running:
-
-- [Running on Google Cloud](#running-on-google-cloud)
-- [Running on Linux](#running-on-linux)
-- [Running on Windows](#running-on-windows)
-
 ## Mods installed
 
 Mod | Version | Why
