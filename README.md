@@ -64,12 +64,6 @@ Useful things to know:
 - [Changing game mode](#changing-game-modes)
 - [Changing maps](#changing-maps)
 
-Getting up and running:
-
-- [Running on Google Cloud](#running-on-google-cloud)
-- [Running on Linux](#running-on-linux)
-- [Running on Windows](#running-on-windows)
-
 ## Mods installed
 
 Mod | Version | Why
@@ -94,18 +88,6 @@ Mod | Version | Why
 [CS2 Advertisement](https://github.com/partiusfabaa/cs2-advertisement)| `1.0.6.7` | Allows you to show ads in chat/center/panel. [How?](#enable-advertisements)
 [CS2 Deathmatch](https://github.com/NockyCZ/CS2-Deathmatch)| `1.1.0` | Custom Deathmatch CS2 plugin (Includes custom spawnpoints, multicfg, gun selection, spawn protection, etc)
 
-## Share the love
-
-If you appreciate the project then please take the time to star the repository 🙏
-
-<img alt="Star the project" src="https://github.com/kus/cs2-modded-server/blob/assets/assets/star.png?raw=true&sanitize=true">
-
-## Stay up to date
-
-Subscribe to release notifications and stay up to date with the latest features and patches:
-
-<img alt="Subscribe to updates" src="https://github.com/kus/cs2-modded-server/blob/assets/assets/watch.png?raw=true&sanitize=true">
-
 ## Custom files
 
 > [!NOTE]  
@@ -128,8 +110,6 @@ If you want to change the server name, or make any changes to any mod settings u
 ### Dynamically creates config files in plugin folder
 
 If a plugin creates a config file in the plugins folder where the dll is (i.e.: `/game/csgo/addons/counterstrikesharp/plugins/disabled/Advertisement/advertisement.json`) it will be deleted when the server starts as the `addons` folder is deleted to make sure old plugins are removed if I removed them. You need to copy this file and your changes to your `/custom_files/` folder so it merges it back in. You would put the example file in `/custom_files/addons/counterstrikesharp/plugins/disabled/Advertisement/advertisement.json` and every time the server starts it will merge it back in and you will have your changes.
-
-To generate this directory, you can run the `gcp.sh` script (if on Google Cloud), `install.sh` script on Linux once or on `win.bat` script on Windows where you extracted the mod zip and this is where you would put your custom modifications.
 
 ## Creating an online server
 
@@ -180,110 +160,6 @@ The console command for hosting a workshop collection is `host_workshop_collecti
 ### Setting maps for different game modes
 
 Copy the file `/game/csgo/gamemodes_server.txt` following the [custom files](#custom-files) steps (`/custom_files/gamemodes_server.txt`) and add the maps you want per gamemode. Most gamemodes fall under casual, but I have created unique groups for each mode so adding your own maps is easy by updating this one file.
-
-## Running on Google Cloud
-
-### Create firewall rule
-
-```
-gcloud compute firewall-rules create source \
---allow tcp:27015-27020,tcp:80,udp:27015-27020
-```
-
-### Create instance
-
-Ensure you have all the settings for your [environment variables](#environment-variables).
-
-If you have issues with the server not handling load, you may want to consider [compute-optimized](https://cloud.google.com/compute/vm-instance-pricing#compute-optimized_machine_types) machine `c2-standard-4`.
-
-```
-gcloud beta compute instances create <instance-name> \
---maintenance-policy=TERMINATE \
---project=<project> \
---zone=australia-southeast1-c \
---machine-type=n2-standard-2 \
---network-tier=PREMIUM \
---metadata=RCON_PASSWORD=changeme,STEAM_ACCOUNT=changeme,API_KEY=changeme,DUCK_DOMAIN=changeme,DUCK_TOKEN=changeme,startup-script="echo \"Delaying for 30 seconds...\" && sleep 30 && cd / && /gcp.sh" \
---no-restart-on-failure \
---scopes=https://www.googleapis.com/auth/devstorage.read_only,https://www.googleapis.com/auth/compute.readonly,https://www.googleapis.com/auth/logging.write,https://www.googleapis.com/auth/monitoring.write,https://www.googleapis.com/auth/servicecontrol,https://www.googleapis.com/auth/service.management.readonly,https://www.googleapis.com/auth/trace.append \
---tags=source \
---image-family=ubuntu-2204-lts \
---image-project=ubuntu-os-cloud \
---boot-disk-size=60GB \
---boot-disk-type=pd-standard \
---boot-disk-device-name=<instance-name>
-```
-
-### SSH to server
-
-```
-gcloud compute ssh <instance-name> \
---zone=australia-southeast1-c
-```
-
-### Install mod
-
-```
-sudo su
-cd / && curl --silent --output "gcp.sh" "https://raw.githubusercontent.com/kus/cs2-modded-server/master/gcp.sh" && chmod +x gcp.sh && bash gcp.sh
-```
-
-If the installation has paused for a long time, restart the server and do it again.
-
-### Stop server
-
-```
-gcloud compute instances stop <instance-name> \
---zone australia-southeast1-c
-```
-
-### Start server
-
-```
-gcloud compute instances start <instance-name> \
---zone australia-southeast1-c
-```
-
-### Delete server
-
-```
-gcloud compute instances delete <instance-name> \
---zone australia-southeast1-c
-```
-
-### Push file to server from local machine
-
-For example a map:
-
-```
-On local:
-gcloud config set project <project>
-cd /path/to/folder
-gcloud compute scp de_kus.vpk root@<instance-name>:/home/steam/cs2/game/csgo/maps --zone australia-southeast1-c
-
-On server SSH:
-cd /home/steam/cs2/game/csgo/maps
-chown steam:steam de_kus.vpk
-chmod 644 de_kus.vpk
-```
-
-### Download from server
-
-`gcloud compute scp root@<instance-name>:/home/steam/cs2/gamecsgo/cfg/comp.cfg  ~/Desktop/`
-
-### Turn VM off at 3:30AM every day
-
-SSH into the VM
-
-Switch to root `sudo su`
-
-Check the timezone your server is running in `sudo hwclock --show`
-
-Open crontab file `nano /etc/crontab`
-
-Append to the end of the crontab file `30 3    * * *   root    shutdown -h now`
-
-Save `CTRL + X`
 
 ## Running on Linux
 
